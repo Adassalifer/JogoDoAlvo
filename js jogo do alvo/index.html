@@ -1,0 +1,72 @@
+<canvas width="1920" height="1080"></canvas>
+
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+
+    pincel.fillStyle = 'lightgray';
+    pincel.fillRect(0, 0, 1920, 1080);
+
+    var raio = 10;
+    var xAleatorio;
+    var yAleatorio;
+
+    function desenhaCirculo(x, y, raio, cor) {
+
+        pincel.fillStyle = cor;
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+
+    }
+
+    function limpaTela() {
+
+        pincel.clearRect(0, 0, 1920, 1080);
+
+    }
+
+    function desenhaAlvo(x,y) {
+
+        desenhaCirculo(x, y, raio+25, 'purple');
+        desenhaCirculo(x, y, raio+15, 'white');
+        desenhaCirculo(x, y, raio+5, 'pink');
+
+    }
+
+    function sorteiaPosicao(maximo) {
+
+        return Math.floor(Math.random() * maximo);
+
+    }
+
+function atualizaTela() {
+    limpaTela();
+    xAleatorio = sorteiaPosicao(1920);
+    yAleatorio = sorteiaPosicao(1080);
+    desenhaAlvo(xAleatorio, yAleatorio);
+}
+
+setInterval(atualizaTela, 700);
+
+function dispara(evento) {
+
+    var x = evento.pageX - tela.offsetLeft;
+    var y = evento.pageY - tela.offsetTop;
+
+    if((x > xAleatorio - raio)
+    && (x < xAleatorio + raio)
+    && (y > yAleatorio - raio)
+    && (y < yAleatorio + raio)) {
+
+        alert('Acertou miseravi!');
+
+    }
+
+
+}
+
+tela.onclick = dispara;
+
+</script>
